@@ -62,4 +62,15 @@ def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
+def postEmails(days):
+    for day in days:
+        for email in day:
+            insertEmail(email)
+    return True
 
+def grabAndPost(start_date, end_date):
+    for _date in daterange(start_date, end_date):
+        print _date.strftime("%Y-%m-%d")
+        emails = getEmails(_date)['emails']
+        for email in emails:
+            insertEmail(email)
