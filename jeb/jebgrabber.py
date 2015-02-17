@@ -10,7 +10,11 @@
 from html2text import html2text
 import httplib, urllib, json
 
-
+# workflow here:
+# getEmails(date) - give me a date, I return data to you
+# some sort of data function
+# some sort of file structure
+# some sort of put me in the mongodb thing
 
 
 def getEmails():
