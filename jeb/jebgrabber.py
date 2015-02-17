@@ -25,7 +25,7 @@ from pymongo import MongoClient
 client = MongoClient()
 db = client.jebgrabber
 
-def insert(data):
+def insertEmail(data):
     db.emails.insert(data)
 
 """
@@ -46,11 +46,13 @@ def getEmails(_date):
     return data
 
 def getEmailsRange(start_date, end_date):
+    data = {}
     for _date in daterange(start_date, end_date):
-        data = getEmails(_date)
-        insert(data)
+        data[_date.strftime("%Y-%m-%d")] = getEmails(_date)['emails']
+    return data
 
 def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + timedelta(n)
+
 
