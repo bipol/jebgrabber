@@ -33,7 +33,7 @@ Need to catch when there is no data in this function, and alert the range
 """    
 def getEmails(_date):
     jebme = httplib.HTTPConnection("www.jebbushemails.com")
-    params = urllib.urlencode({'year':_date.strftime('%y'),
+    params = urllib.urlencode({'year':_date.strftime('%Y'),
                                'month':_date.strftime('%m'),
                                'day':_date.strftime('%d'),
                                'locale':'en-us'})
