@@ -45,6 +45,13 @@ def getEmails(_date):
     json.dumps(data, sort_keys=True, indent=4)
     return data
 
+"""
+ex. x = date(2001, 01, 01)
+    y = date(2001, 01, 07)
+    d = jebgrabber.getEmailsRange(x, y)
+
+    d = { 'year-month-day' : [ email, email, email ], ... }
+"""
 def getEmailsRange(start_date, end_date):
     data = {}
     for _date in daterange(start_date, end_date):
