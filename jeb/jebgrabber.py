@@ -43,7 +43,7 @@ def getEmails(_date):
     return data
 
 def getEmailsRange(start_date, end_date):
-    for _date in date_range(start_date, end_date):
+    for _date in daterange(start_date, end_date):
         data = getEmails(_date)
         insert(data)
 
