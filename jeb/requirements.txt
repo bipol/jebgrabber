@@ -1,0 +1,5 @@
+numpy==1.9.1
+panda==0.1.5
+pymongo==2.8
+requests==2.5.1
+pytest==2.6.4
