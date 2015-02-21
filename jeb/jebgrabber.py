@@ -82,13 +82,13 @@ def postEmails(days):
     return True
 
 def grabAndPost(start_date, end_date):
-<<<<<<< HEAD
     connect_db()
     try:
         for _date in daterange(start_date, end_date):
             print _date.strftime("%Y-%m-%d")
             emails = getEmails(_date)['emails']
             for email in emails:
+                email['message'] = parseEmail(email['message'])
                 email_object = Email(email)
                 insertEmail(email_object)
     finally:
@@ -113,11 +113,3 @@ class Email(object):
         self.id = data['id']
         self.subject = data['subject']
 
-=======
-    for _date in daterange(start_date, end_date):
-        print _date.strftime("%Y-%m-%d")
-        emails = getEmails(_date)['emails']
-        for email in emails:
-            email['message'] = parseEmail(email['message'])
-            insertEmail(email)
->>>>>>> bccc0d5ffa91b479392e65710cf8cd247f338561
