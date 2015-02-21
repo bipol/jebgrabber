@@ -22,14 +22,9 @@ import psycopg2
  and collection emails..
 
 """
-<<<<<<< HEAD
 conn = None
 cur = None
-=======
-client = MongoClient()
-db = client.jebgrabber
 regex = re.compile("\\n-----Original Message-----\\n")
->>>>>>> bccc0d5ffa91b479392e65710cf8cd247f338561
 
 def insertEmail(data):
     cur.execute("INSERT INTO emails (fromaddress, timestamp, toAddress, message, id, subject) \
