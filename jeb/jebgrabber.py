@@ -22,8 +22,8 @@ import psycopg2
  and collection emails..
 
 """
-conn = psycopg2.connect(database="jebgrabber", user="jeb")
-cur = conn.cursor()
+conn = None
+cur = None
 
 def insertEmail(data):
     cur.execute("INSERT INTO emails (fromaddress, timestamp, toAddress, message, id, subject) \
@@ -72,12 +72,26 @@ def postEmails(days):
     return True
 
 def grabAndPost(start_date, end_date):
-    for _date in daterange(start_date, end_date):
-        print _date.strftime("%Y-%m-%d")
-        emails = getEmails(_date)['emails']
-        for email in emails:
-            email_object = Email(email)
-            insertEmail(email_object)
+    connect_db()
+    try:
+        for _date in daterange(start_date, end_date):
+            print _date.strftime("%Y-%m-%d")
+            emails = getEmails(_date)['emails']
+            for email in emails:
+                email_object = Email(email)
+                insertEmail(email_object)
+    finally:
+        close_db()
+
+def connect_db():
+    global conn, cur
+    conn = psycopg2.connect(database="jebgrabber", user="jeb")
+    cur = conn.cursor()
+
+def close_db():
+    conn.commit()
+    cur.close()
+    conn.close()
 
 class Email(object):
     def __init__(self, data):
