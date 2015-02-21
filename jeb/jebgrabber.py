@@ -7,7 +7,7 @@
 # beepz paulz 
 
 
-import httplib, urllib, json
+import httplib, urllib, json, re
 from datetime import date, timedelta
 from pymongo import MongoClient
 
@@ -24,10 +24,15 @@ from pymongo import MongoClient
 """
 client = MongoClient()
 db = client.jebgrabber
+regex = re.compile("\\n-----Original Message-----\\n")
 
 def insertEmail(data):
     db.emails.insert(data)
 
+def parseEmail(text):
+    result = regex.split(text)
+    return result[0]
+    
 """
 Need to catch when there is no data in this function, and alert the range
 """    
@@ -73,4 +78,5 @@ def grabAndPost(start_date, end_date):
         print _date.strftime("%Y-%m-%d")
         emails = getEmails(_date)['emails']
         for email in emails:
+            email['message'] = parseEmail(email['message'])
             insertEmail(email)

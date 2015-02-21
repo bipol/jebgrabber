@@ -36,3 +36,8 @@ def test_daterange():
     assert len(date_set) == 7 
     assert date_set[0] == d1
     assert date_set[6] == d2
+
+def test_parseEmail():
+    before = "I AM TEXT\n-----Original Message-----\n I SHOULDN'T BE HERE"
+    after = "I AM TEXT"
+    assert jebgrabber.parseEmail(before) == after

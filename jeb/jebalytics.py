@@ -35,3 +35,4 @@ def getEmailsThatContain(text):
     text = "\\s*"+text+"\\s*"
     emails = db.find({'message': re.compile(text, re.IGNORECASE)}) 
     return emails
+
