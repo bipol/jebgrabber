@@ -7,7 +7,7 @@
 # beepz paulz 
 
 
-import httplib, urllib, json
+import httplib, urllib, json, re
 from datetime import date, timedelta
 import psycopg2
 
@@ -22,8 +22,14 @@ import psycopg2
  and collection emails..
 
 """
+<<<<<<< HEAD
 conn = None
 cur = None
+=======
+client = MongoClient()
+db = client.jebgrabber
+regex = re.compile("\\n-----Original Message-----\\n")
+>>>>>>> bccc0d5ffa91b479392e65710cf8cd247f338561
 
 def insertEmail(data):
     cur.execute("INSERT INTO emails (fromaddress, timestamp, toAddress, message, id, subject) \
@@ -31,6 +37,10 @@ def insertEmail(data):
                  (data.fromAddress, data.timestamp, data.toAddress, data.message, data.id, data.subject))
     print "inserted", data
 
+def parseEmail(text):
+    result = regex.split(text)
+    return result[0]
+    
 """
 Need to catch when there is no data in this function, and alert the range
 """    
@@ -72,6 +82,7 @@ def postEmails(days):
     return True
 
 def grabAndPost(start_date, end_date):
+<<<<<<< HEAD
     connect_db()
     try:
         for _date in daterange(start_date, end_date):
@@ -102,3 +113,11 @@ class Email(object):
         self.id = data['id']
         self.subject = data['subject']
 
+=======
+    for _date in daterange(start_date, end_date):
+        print _date.strftime("%Y-%m-%d")
+        emails = getEmails(_date)['emails']
+        for email in emails:
+            email['message'] = parseEmail(email['message'])
+            insertEmail(email)
+>>>>>>> bccc0d5ffa91b479392e65710cf8cd247f338561

@@ -32,6 +32,7 @@ def getEmailsFrom(start_date, end_date):
     return emails
 
 def getEmailsThatContain(text):
-    text = "\\w*"+text+"\\w*"
+    text = "\\s*"+text+"\\s*"
     emails = db.find({'message': re.compile(text, re.IGNORECASE)}) 
     return emails
+
