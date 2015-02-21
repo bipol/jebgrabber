@@ -9,7 +9,7 @@
 
 import httplib, urllib, json
 from datetime import date, timedelta
-from pymongo import MongoClient
+import psycopg2
 
 """
  workflow here:
@@ -22,11 +22,14 @@ from pymongo import MongoClient
  and collection emails..
 
 """
-client = MongoClient()
-db = client.jebgrabber
+conn = psycopg2.connect(database="jebgrabber", user="jeb")
+cur = conn.cursor()
 
 def insertEmail(data):
-    db.emails.insert(data)
+    cur.execute("INSERT INTO emails (fromaddress, timestamp, toAddress, message, id, subject) \
+                 VALUES (%s, %s, %s, %s, %s, %s);",
+                 (data.fromAddress, data.timestamp, data.toAddress, data.message, data.id, data.subject))
+    print "inserted", data
 
 """
 Need to catch when there is no data in this function, and alert the range
@@ -59,7 +62,7 @@ def getEmailsRange(start_date, end_date):
     return data
 
 def daterange(start_date, end_date):
-    for n in range(int ((end_date - start_date).days)):
+    for n in range(int ((end_date - start_date).days) + 1):
         yield start_date + timedelta(n)
 
 def postEmails(days):
@@ -73,4 +76,15 @@ def grabAndPost(start_date, end_date):
         print _date.strftime("%Y-%m-%d")
         emails = getEmails(_date)['emails']
         for email in emails:
-            insertEmail(email)
+            email_object = Email(email)
+            insertEmail(email_object)
+
+class Email(object):
+    def __init__(self, data):
+        self.fromAddress = data['from']
+        self.timestamp = data['dateCentral']
+        self.toAddress = data['to']
+        self.message = data['message']
+        self.id = data['id']
+        self.subject = data['subject']
+
