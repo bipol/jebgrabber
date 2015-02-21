@@ -27,3 +27,12 @@ def test_dateCounter():
     ed = date(2001,01,07)
     counter = jebalytics.dateCounter(sd, ed)
 
+def test_daterange():
+    d1 = date(2001,01,01)
+    d2 = date(2001,01,07)
+    date_set = []
+    for _date in jebgrabber.daterange(d1,d2):
+        date_set.append(_date)
+    assert len(date_set) == 7 
+    assert date_set[0] == d1
+    assert date_set[6] == d2
