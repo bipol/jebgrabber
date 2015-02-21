@@ -1,4 +1,4 @@
-from pymongo import MongoClient
+import psycopg2
 from collections import Counter
 from bson.json_util import dumps
 import json, jebgrabber, re

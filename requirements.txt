@@ -1,5 +1,6 @@
 numpy==1.9.1
 panda==0.1.5
-pymongo==2.8
-requests==2.5.1
+psycopg2==2.6
+py==1.4.26
 pytest==2.6.4
+requests==2.5.1
